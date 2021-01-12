@@ -1,0 +1,7 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+www.srsexteriors.com	TRUE	/	FALSE	1999999999	__RequestVerificationToken	njnXED9XrANFsTp5DJj2Nq6vVh6UGE0xWoiGxAOdeCdyqckYRD78yvyESNr-vjGJ2Kv_DD8-4sfmTuzp672zt9xlP35CDOrUP2G10RCnyFQ1
+www.srsexteriors.com	TRUE	/	FALSE	1999999999	ARRAffinity	05b861ebe79164f1c3419b2df70ed06db5899d9a39895e36c9e927e50da322ed
+www.srsexteriors.com	TRUE	/	FALSE	1999999999	ARRAffinitySameSite	05b861ebe79164f1c3419b2df70ed06db5899d9a39895e36c9e927e50da322ed
+www.srsexteriors.com	TRUE	/	FALSE	1999999999	SameSite	None
+

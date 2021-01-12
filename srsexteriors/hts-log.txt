@@ -1,0 +1,31 @@
+HTTrack3.49-2+htsswf+htsjava launched on Mon, 11 Jan 2021 18:22:45 at https://www.srsexteriors.com/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" https://www.srsexteriors.com/ -O1 "C:\Users\abe\Desktop\Yak\srs\srsexteriors" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+18:23:30	Error: 	"Bad Request" (400) at link https://www.googletagmanager.com/gtm.js?id= (from https://www.srsexteriors.com/)
+18:24:04	Warning: 	Found for https://www.srsexteriors.com/past-projects/
+18:24:04	Warning: 	File has moved from https://www.srsexteriors.com/past-projects/ to /past-projects/?map=1&zip=60540
+18:24:13	Warning: 	Moved Permanently for https://www.srsexteriors.com/service-areas/bolingbrook/
+18:24:13	Warning: 	File has moved from https://www.srsexteriors.com/service-areas/bolingbrook/ to https://www.srsexteriors.com/bolingbrook/
+18:24:23	Warning: 	Moved Permanently for https://www.srsexteriors.com/service-areas/downers-grove/
+18:24:23	Warning: 	File has moved from https://www.srsexteriors.com/service-areas/downers-grove/ to https://www.srsexteriors.com/downers-grove/
+18:25:02	Warning: 	Moved Permanently for https://www.srsexteriors.com/POST/
+18:25:02	Warning: 	File has moved from https://www.srsexteriors.com/POST/ to https://www.srsexteriors.com/
+18:25:07	Warning: 	Moved Permanently for https://www.srsexteriors.com/service-areas/hoffman-estates/
+18:25:07	Warning: 	File has moved from https://www.srsexteriors.com/service-areas/hoffman-estates/ to https://www.srsexteriors.com/
+18:25:12	Warning: 	Moved Permanently for https://www.srsexteriors.com/service-areas/schaumburg/
+18:25:12	Warning: 	File has moved from https://www.srsexteriors.com/service-areas/schaumburg/ to https://www.srsexteriors.com/
+18:25:16	Warning: 	Moved Permanently for https://www.srsexteriors.com/aurora/roofing-contractor/
+18:25:16	Warning: 	File has moved from https://www.srsexteriors.com/aurora/roofing-contractor/ to https://www.srsexteriors.com/aurora/roofing/
+18:25:23	Warning: 	Moved Permanently for https://www.srsexteriors.com/chicago/roofing-contractor/
+18:25:23	Warning: 	File has moved from https://www.srsexteriors.com/chicago/roofing-contractor/ to https://www.srsexteriors.com/chicago/roofing/
+18:25:30	Warning: 	Moved Permanently for https://www.srsexteriors.com/naperville/roofing-contractor/
+18:25:30	Warning: 	File has moved from https://www.srsexteriors.com/naperville/roofing-contractor/ to https://www.srsexteriors.com/naperville/roofing/
+18:25:42	Warning: 	Link https://www.srsexteriors.com/roof-storm-damage/ not scanned (follow robots meta tag)
+
+HTTrack Website Copier/3.49-2 mirror complete in 2 minutes 59 seconds : 394 links scanned, 383 files written (71095564 bytes overall) [68207329 bytes received at 381046 bytes/sec], 4265709 bytes transferred using HTTP compression in 88 files, ratio 28%
+(1 errors, 19 warnings, 0 messages)
