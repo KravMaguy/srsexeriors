@@ -9724,6 +9724,7 @@ $(function () {
     // }
 
     function f() {
+        let location="http://localhost/srs/srsexteriors/www.srsexteriors.com" //change when moving to live server:
       console.log("f redefined");
       $("#price-quote").on("submit", function (e) {
         e.preventDefault();
@@ -9732,7 +9733,6 @@ $(function () {
         button.html("Submitting details please wait...");
         let valid;
         valid = validateContact();
-        console.log("form was submitted");
         let date = $("#apptdateraw").val();
         let time = $("#appttime").val();
         let projectType = $("#service").val();
@@ -9744,9 +9744,12 @@ $(function () {
           return val;
         }
         if (valid) {
+            let getUrl = window.location;
+            let baseUrl = getUrl .protocol + "//" + getUrl.host 
+            console.log(baseUrl, "baseUrl")
           $.ajax({
             type: "post",
-            url: "../php-email/contact_mail.php",
+            url: location +"/php-email/contact_mail.php",
             data:
               "name=" +
               $("#name").val() +
@@ -9778,12 +9781,27 @@ $(function () {
               window.alert('error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443')
             },
           });
+        } else {
+            button.html("GET FREE ESTIMATE");
+            button.prop('disabled', false);
         }
 
         function validateContact() {
           var valid = true;
+          if(!$("#name").val()){
+              window.alert("name can not be blank")
+              valid=false;
+          }
+          if(!$("#phone").val()){
+              window.alert("phone number can not be blank")
+              valid=false;
+          }
+          if(!$("#address").val()){
+            window.alert("address can not be blank")
+            valid=false;
+        }
           if (!$("#email").val()) {
-            window.alert("email cannot be blank");
+            window.alert("email can not be blank");
             valid = false;
           }
           if (
