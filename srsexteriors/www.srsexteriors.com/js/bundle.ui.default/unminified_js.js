@@ -9727,6 +9727,9 @@ $(function () {
       console.log("f redefined");
       $("#price-quote").on("submit", function (e) {
         e.preventDefault();
+        let button=$("#price-quote-submit");
+        button.prop('disabled', true);
+        button.html("Submitting details please wait...");
         let valid;
         valid = validateContact();
         console.log("form was submitted");
@@ -9763,10 +9766,16 @@ $(function () {
               checkIfisEmptyVal(projectDescription),
             success: function (data) {
               // $("#mail-status").html(data);
+              window.alert("thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443")
               console.log("success data= ", data);
+              $('#price-quote').trigger("reset");
+              button.html("GET FREE ESTIMATE");
+              button.prop('disabled', false);
+              
             },
             error: function (x) {
               console.log(x);
+              window.alert('error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443')
             },
           });
         }
