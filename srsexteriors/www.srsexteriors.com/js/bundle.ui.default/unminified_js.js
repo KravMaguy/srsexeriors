@@ -9538,11 +9538,14 @@ $(function () {
                 }));
     }
     function f() {
+        console.log('function f was run')
         var n = $("#price-quote"),
             i,
             t;
         if (n.length) {
+            console.log('condition n.length line 9546')
             $("button.onoffswitch-toggle").on("click", function () {
+                console.log('switch toggler clicked')
                 $(this).hasClass("collapsed") ? $("input[name=setappointment]").val("true") : $("input[name=setappointment]").val("false");
             });
             $(".btn-schedule-appt").on("click", function () {
@@ -9553,6 +9556,7 @@ $(function () {
             t = null;
             n.formUploader();
             n.find("#price-quote-submit").click(function (i) {
+                console.log('line 9559 hit')
                 function u() {
                     var u = n.serializeArray().filter(function (n) {
                             return n.name === "tocountry" ? (n.value === "" ? !1 : !0) : !0;
@@ -9575,6 +9579,7 @@ $(function () {
                             return n.name;
                         }).join(",")),
                         t.append("filename", r));
+                        for (var value of t.values()) { console.log(value); }
                     $.ajax({
                         type: "POST",
                         cache: !1,
@@ -9715,6 +9720,9 @@ $(function () {
             $("#zip").attr("autocomplete", "none");
         });
     }
+
+
+
     function e() {
         if ($("#visual-quoter-form").length > 0) {
             var n = $("#visual-quoter-form"),
