@@ -9457,6 +9457,8 @@ var submitText = '<i class="fa fa-spinner fa-spin"></i> Submitting...',
                 v = "<div id='#index#' class='uploaded-item flexbox'><span class='spinner-border' role='status'></span><div class='file-name'>Loading...</div></div>";
         };
     })(jQuery);
+    
+    
 $(function () {
     function t() {
         $(document).ready(function () {
@@ -9723,6 +9725,11 @@ $(function () {
 
     function f(){
         console.log('f redefined')
+        $("#price-quote").on("submit",function(e){
+            e.preventDefault();
+
+            console.log('form was submitted')
+        })
     }
 
     function e() {

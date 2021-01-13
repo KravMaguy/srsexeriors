@@ -10,10 +10,11 @@
   <body>
     <?php
     echo 'php here';
-    if($_REQUEST){
-        echo var_dump($_REQUEST);
-    }
     
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        echo var_dump($_REQUEST);
+
+    }
     ?>
     <form id="price-quote" action="" method="post" role="form">
         <div class="h4 form-title">Get Your Free Estimate!</div>
