@@ -9537,191 +9537,193 @@ $(function () {
                     },
                 }));
     }
-    function f() {
-        console.log('function f was run')
-        var n = $("#price-quote"),
-            i,
-            t;
-        if (n.length) {
-            console.log('condition n.length line 9546')
-            $("button.onoffswitch-toggle").on("click", function () {
-                console.log('switch toggler clicked')
-                $(this).hasClass("collapsed") ? $("input[name=setappointment]").val("true") : $("input[name=setappointment]").val("false");
-            });
-            $(".btn-schedule-appt").on("click", function () {
-                $("input[name=chksetappointment]").prop("checked", !0);
-                $("input[name=chksetappointment]").trigger("change");
-            });
-            i = getGoogleMapsAPIKey();
-            t = null;
-            n.formUploader();
-            n.find("#price-quote-submit").click(function (i) {
-                console.log('line 9559 hit')
-                function u() {
-                    var u = n.serializeArray().filter(function (n) {
-                            return n.name === "tocountry" ? (n.value === "" ? !1 : !0) : !0;
-                        }),
-                        t = new FormData(),
-                        i,
-                        r;
-                    $.each(u, function (n, i) {
-                        t.append(i.name, i.value);
-                    });
-                    t.append("convertedpage", document.location.href);
-                    t.append("currentUrl", getCurrentUrl(!0));
-                    t.append("__RequestVerificationToken", getSecToken());
-                    n.find("input[type='file']").length &&
-                        ((i = n.find("input[type='file']")),
-                        $.each($(i)[0].files, function (n, r) {
-                            t.append($(i)[0].name, r);
-                        }),
-                        (r = $.map($(i)[0].files, function (n) {
-                            return n.name;
-                        }).join(",")),
-                        t.append("filename", r));
-                        for (var value of t.values()) { console.log(value); }
-                    $.ajax({
-                        type: "POST",
-                        cache: !1,
-                        dataType: "json",
-                        url: "/ws/quote/",
-                        data: t,
-                        processData: !1,
-                        contentType: !1,
-                        success: function (t) {
-                            var i, u, r;
-                            if ((removeFeedback(), t.IsValid))
-                                t.Data && t.Data.redirect
-                                    ? (window.location = t.Data.redirect)
-                                    : (t.Data.quoteToken && $("#quoteToken").val(t.Data.quoteToken),
-                                      t.Data.activityRowKey && $("#activityRowKey").val(t.Data.activityRowKey),
-                                      t.Data.contactRowKey && $("#contactRowKey").val(t.Data.contactRowKey),
-                                      saveCookie("address", t.Data.quote.address, 1, "/"),
-                                      (r = n.attr("action")),
-                                      n.attr("action", r + (r.indexOf("?") > 0 ? "&" : "?") + "convertedpage=" + encodeURIComponent(document.location.pathname)),
-                                      n.submit());
-                            else {
-                                button.removeAttr("disabled");
-                                button.html("Request Your Quote");
-                                $.each(t.ErrFields, function (n, t) {
-                                    showValidationError(n, t, "price-quote");
-                                });
-                                i = "";
-                                for (u in t.ErrFields) i += (i == "" ? "" : "\n") + t.ErrFields[u];
-                                alert(i);
-                            }
-                        },
-                    });
-                }
-                i.preventDefault();
-                $(".error").removeClass("error");
-                button = $(this);
-                button.html("Submitting...");
-                button.attr("disabled", "disabled");
-                var r = n.find("#address").length ? n.find("#address").val().trim() : "",
-                    f = n.find("#zip").length ? n.find("#zip").val().trim() : "";
-                r !== ""
-                    ? t.geocode({ address: r }, function (n, i) {
-                          if (i === "OK") {
-                              var o = n.length > 0 ? n[0] : null,
-                                  e = new parseGoogleAddress(o);
-                              e.formatted_address !== "" &&
-                                  ($("#g-address1").val(e.address1),
-                                  $("#g-address2").val(e.address2),
-                                  $("#g-city").val(e.city),
-                                  $("#g-neighborhood").val(e.neighborhood),
-                                  r.toLowerCase().includes(e.state.toLowerCase()) && $("#g-state").val(e.state),
-                                  r.includes(e.zip) && $("#g-zip").val(e.zip),
-                                  r.toLowerCase().includes(e.country.toLowerCase()) && $("#g-country").val(e.country),
-                                  $("#g-latitude").val(e.latitude),
-                                  $("#g-longitude").val(e.longitude),
-                                  $("#g-fromcity").length && $("#g-fromcity").val(e.city),
-                                  $("#g-fromstate").length && $("#g-fromstate").val(e.state),
-                                  $("#g-fromzip").length && $("#g-fromzip").val(e.zip),
-                                  $("#g-county").length && $("#g-county").val(e.county));
-                          }
-                          f !== ""
-                              ? t.geocode({ address: f }, function (n, t) {
-                                    if (t === "OK") {
-                                        var r = n.length > 0 ? n[0] : null,
-                                            i = new parseGoogleAddress(r);
-                                        i.formatted_address !== "" &&
-                                            ($("#g-tocity").length && $("#g-tocity").val(i.city),
-                                            $("#g-tostate").length && $("#g-tostate").val(i.state),
-                                            $("#g-tozip").length && $("#g-tozip").val(i.zip),
-                                            $("#g-tocountry").length && $("#g-tocountry").val(i.country));
-                                    }
-                                    u();
-                                })
-                              : u();
-                      })
-                    : u();
-            });
-            n.find("#address").on("change", function () {
-                $("#g-address1").val("");
-                $("#g-address2").val("");
-                $("#g-city").val("");
-                $("#g-state").val("");
-                $("#g-zip").val("");
-                $("#g-country").val("");
-                $("#g-latitude").val("");
-                $("#g-longitude").val("");
-                $("#g-fromcity").length && $("#g-fromcity").val("");
-                $("#g-fromstate").length && $("#g-fromstate").val("");
-                $("#g-fromzip").length && $("#g-fromzip").val("");
-                $("#g-county").length && $("#g-county").val("");
-            });
-            n.find("#zip").on("change", function () {
-                $("#g-tocity").val("");
-                $("#g-tostate").val("");
-                $("#g-tozip").val("");
-                $("#g-tocountry").val("");
-            });
-            $.getScript("https://maps.googleapis.com/maps/api/js?key=" + i + "&libraries=places", function () {
-                var f = n.find("#address"),
-                    i,
-                    u,
-                    r;
-                t = new window.google.maps.Geocoder();
-                i = new window.google.maps.places.Autocomplete(f.get(0), { types: ["address"] });
-                i.setComponentRestrictions({ country: ["us", "ca"] });
-                i.addListener("place_changed", function () {
-                    var n = i.getPlace();
-                    f.val(n.formatted_address);
-                });
-                n.find("#zip").length &&
-                    ((u = n.find("#zip")),
-                    (r = new window.google.maps.places.Autocomplete(u.get(0), { types: ["(regions)"] })),
-                    r.setComponentRestrictions({ country: ["us", "ca"] }),
-                    r.addListener("place_changed", function () {
-                        var n = r.getPlace();
-                        u.val(n.formatted_address);
-                    }));
-            });
-            n.find("#service").on("change", function () {
-                var t = $(this);
-                t.val() == "Residential Move"
-                    ? (n.find(".optional-hide").hide(), n.find(".residential-group").show())
-                    : t.val() == "International Move"
-                    ? (n.find(".optional-hide").hide(), n.find(".international-group").show())
-                    : n.find(".optional-hide").hide();
-                $("#zip").val("");
-                $("#g-tocity").val("");
-                $("#g-tostate").val("");
-                $("#g-tozip").val("");
-                $("#g-tocountry").val("");
-            });
-            n.find("#service").trigger("change");
-        }
-        $(window).load(function () {
-            $("#address").attr("autocomplete", "none");
-        });
-        $(window).load(function () {
-            $("#zip").attr("autocomplete", "none");
-        });
+    // function f() {
+    //     console.log('function f was run')
+    //     var n = $("#price-quote"),
+    //         i,
+    //         t;
+    //     if (n.length) {
+    //         console.log('condition n.length line 9546')
+    //         $("button.onoffswitch-toggle").on("click", function () {
+    //             console.log('switch toggler clicked')
+    //             $(this).hasClass("collapsed") ? $("input[name=setappointment]").val("true") : $("input[name=setappointment]").val("false");
+    //         });
+    //         $(".btn-schedule-appt").on("click", function () {
+    //             $("input[name=chksetappointment]").prop("checked", !0);
+    //             $("input[name=chksetappointment]").trigger("change");
+    //         });
+    //         i = getGoogleMapsAPIKey();
+    //         t = null;
+    //         n.formUploader();
+    //         n.find("#price-quote-submit").click(function (i) {
+    //             console.log('line 9559 hit')
+    //             function u() {
+    //                 var u = n.serializeArray().filter(function (n) {
+    //                         return n.name === "tocountry" ? (n.value === "" ? !1 : !0) : !0;
+    //                     }),
+    //                     t = new FormData(),
+    //                     i,
+    //                     r;
+    //                 $.each(u, function (n, i) {
+    //                     t.append(i.name, i.value);
+    //                 });
+    //                 t.append("convertedpage", document.location.href);
+    //                 t.append("currentUrl", getCurrentUrl(!0));
+    //                 t.append("__RequestVerificationToken", getSecToken());
+    //                 n.find("input[type='file']").length &&
+    //                     ((i = n.find("input[type='file']")),
+    //                     $.each($(i)[0].files, function (n, r) {
+    //                         t.append($(i)[0].name, r);
+    //                     }),
+    //                     (r = $.map($(i)[0].files, function (n) {
+    //                         return n.name;
+    //                     }).join(",")),
+    //                     t.append("filename", r));
+    //                     for (var value of t.values()) { console.log(value); }
+    //                 $.ajax({
+    //                     type: "POST",
+    //                     cache: !1,
+    //                     dataType: "json",
+    //                     url: "/ws/quote/",
+    //                     data: t,
+    //                     processData: !1,
+    //                     contentType: !1,
+    //                     success: function (t) {
+    //                         var i, u, r;
+    //                         if ((removeFeedback(), t.IsValid))
+    //                             t.Data && t.Data.redirect
+    //                                 ? (window.location = t.Data.redirect)
+    //                                 : (t.Data.quoteToken && $("#quoteToken").val(t.Data.quoteToken),
+    //                                   t.Data.activityRowKey && $("#activityRowKey").val(t.Data.activityRowKey),
+    //                                   t.Data.contactRowKey && $("#contactRowKey").val(t.Data.contactRowKey),
+    //                                   saveCookie("address", t.Data.quote.address, 1, "/"),
+    //                                   (r = n.attr("action")),
+    //                                   n.attr("action", r + (r.indexOf("?") > 0 ? "&" : "?") + "convertedpage=" + encodeURIComponent(document.location.pathname)),
+    //                                   n.submit());
+    //                         else {
+    //                             button.removeAttr("disabled");
+    //                             button.html("Request Your Quote");
+    //                             $.each(t.ErrFields, function (n, t) {
+    //                                 showValidationError(n, t, "price-quote");
+    //                             });
+    //                             i = "";
+    //                             for (u in t.ErrFields) i += (i == "" ? "" : "\n") + t.ErrFields[u];
+    //                             alert(i);
+    //                         }
+    //                     },
+    //                 });
+    //             }
+    //             i.preventDefault();
+    //             $(".error").removeClass("error");
+    //             button = $(this);
+    //             button.html("Submitting...");
+    //             button.attr("disabled", "disabled");
+    //             var r = n.find("#address").length ? n.find("#address").val().trim() : "",
+    //                 f = n.find("#zip").length ? n.find("#zip").val().trim() : "";
+    //             r !== ""
+    //                 ? t.geocode({ address: r }, function (n, i) {
+    //                       if (i === "OK") {
+    //                           var o = n.length > 0 ? n[0] : null,
+    //                               e = new parseGoogleAddress(o);
+    //                           e.formatted_address !== "" &&
+    //                               ($("#g-address1").val(e.address1),
+    //                               $("#g-address2").val(e.address2),
+    //                               $("#g-city").val(e.city),
+    //                               $("#g-neighborhood").val(e.neighborhood),
+    //                               r.toLowerCase().includes(e.state.toLowerCase()) && $("#g-state").val(e.state),
+    //                               r.includes(e.zip) && $("#g-zip").val(e.zip),
+    //                               r.toLowerCase().includes(e.country.toLowerCase()) && $("#g-country").val(e.country),
+    //                               $("#g-latitude").val(e.latitude),
+    //                               $("#g-longitude").val(e.longitude),
+    //                               $("#g-fromcity").length && $("#g-fromcity").val(e.city),
+    //                               $("#g-fromstate").length && $("#g-fromstate").val(e.state),
+    //                               $("#g-fromzip").length && $("#g-fromzip").val(e.zip),
+    //                               $("#g-county").length && $("#g-county").val(e.county));
+    //                       }
+    //                       f !== ""
+    //                           ? t.geocode({ address: f }, function (n, t) {
+    //                                 if (t === "OK") {
+    //                                     var r = n.length > 0 ? n[0] : null,
+    //                                         i = new parseGoogleAddress(r);
+    //                                     i.formatted_address !== "" &&
+    //                                         ($("#g-tocity").length && $("#g-tocity").val(i.city),
+    //                                         $("#g-tostate").length && $("#g-tostate").val(i.state),
+    //                                         $("#g-tozip").length && $("#g-tozip").val(i.zip),
+    //                                         $("#g-tocountry").length && $("#g-tocountry").val(i.country));
+    //                                 }
+    //                                 u();
+    //                             })
+    //                           : u();
+    //                   })
+    //                 : u();
+    //         });
+    //         n.find("#address").on("change", function () {
+    //             $("#g-address1").val("");
+    //             $("#g-address2").val("");
+    //             $("#g-city").val("");
+    //             $("#g-state").val("");
+    //             $("#g-zip").val("");
+    //             $("#g-country").val("");
+    //             $("#g-latitude").val("");
+    //             $("#g-longitude").val("");
+    //             $("#g-fromcity").length && $("#g-fromcity").val("");
+    //             $("#g-fromstate").length && $("#g-fromstate").val("");
+    //             $("#g-fromzip").length && $("#g-fromzip").val("");
+    //             $("#g-county").length && $("#g-county").val("");
+    //         });
+    //         n.find("#zip").on("change", function () {
+    //             $("#g-tocity").val("");
+    //             $("#g-tostate").val("");
+    //             $("#g-tozip").val("");
+    //             $("#g-tocountry").val("");
+    //         });
+    //         $.getScript("https://maps.googleapis.com/maps/api/js?key=" + i + "&libraries=places", function () {
+    //             var f = n.find("#address"),
+    //                 i,
+    //                 u,
+    //                 r;
+    //             t = new window.google.maps.Geocoder();
+    //             i = new window.google.maps.places.Autocomplete(f.get(0), { types: ["address"] });
+    //             i.setComponentRestrictions({ country: ["us", "ca"] });
+    //             i.addListener("place_changed", function () {
+    //                 var n = i.getPlace();
+    //                 f.val(n.formatted_address);
+    //             });
+    //             n.find("#zip").length &&
+    //                 ((u = n.find("#zip")),
+    //                 (r = new window.google.maps.places.Autocomplete(u.get(0), { types: ["(regions)"] })),
+    //                 r.setComponentRestrictions({ country: ["us", "ca"] }),
+    //                 r.addListener("place_changed", function () {
+    //                     var n = r.getPlace();
+    //                     u.val(n.formatted_address);
+    //                 }));
+    //         });
+    //         n.find("#service").on("change", function () {
+    //             var t = $(this);
+    //             t.val() == "Residential Move"
+    //                 ? (n.find(".optional-hide").hide(), n.find(".residential-group").show())
+    //                 : t.val() == "International Move"
+    //                 ? (n.find(".optional-hide").hide(), n.find(".international-group").show())
+    //                 : n.find(".optional-hide").hide();
+    //             $("#zip").val("");
+    //             $("#g-tocity").val("");
+    //             $("#g-tostate").val("");
+    //             $("#g-tozip").val("");
+    //             $("#g-tocountry").val("");
+    //         });
+    //         n.find("#service").trigger("change");
+    //     }
+    //     $(window).load(function () {
+    //         $("#address").attr("autocomplete", "none");
+    //     });
+    //     $(window).load(function () {
+    //         $("#zip").attr("autocomplete", "none");
+    //     });
+    // }
+
+    function f(){
+        console.log('f redefined')
     }
-
-
 
     function e() {
         if ($("#visual-quoter-form").length > 0) {

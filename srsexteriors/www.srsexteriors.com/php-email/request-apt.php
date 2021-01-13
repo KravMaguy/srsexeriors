@@ -8,7 +8,14 @@
     <script src="../js/bundle.ui.default/unminified_js.js"></script>
   </head>
   <body>
-    <form id="price-quote" action="https://www.srsexteriors.com/quote-thank-you/?ref=pricing" method="post" role="form">
+    <?php
+    echo 'php here';
+    if($_REQUEST){
+        echo var_dump($_REQUEST);
+    }
+    
+    ?>
+    <form id="price-quote" action="" method="post" role="form">
         <div class="h4 form-title">Get Your Free Estimate!</div>
         <div class="form-group">
             <label for="name" class="sr-only">Full Name</label>
