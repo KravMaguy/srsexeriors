@@ -9723,26 +9723,75 @@ $(function () {
     //     });
     // }
 
-    function f(){
-        console.log('f redefined')
-        $("#price-quote").on("submit",function(e){
-            e.preventDefault();
-            console.log('form was submitted')
+    function f() {
+      console.log("f redefined");
+      $("#price-quote").on("submit", function (e) {
+        e.preventDefault();
+        let valid;
+        valid = validateContact();
+        console.log("form was submitted");
+        let date = $("#apptdateraw").val();
+        let time = $("#appttime").val();
+        let projectType = $("#service").val();
+        let projectDescription = $("#details").val();
+        function checkIfisEmptyVal(val) {
+          if (val === "" || !val) {
+            return (val = "user did not enter a value");
+          }
+          return val;
+        }
+        if (valid) {
+          $.ajax({
+            type: "post",
+            url: "../php-email/contact_mail.php",
+            data:
+              "name=" +
+              $("#name").val() +
+              "&email=" +
+              $("#email").val() +
+              "&address=" +
+              $("#address").val() +
+              "&phone=" +
+              $("#phone").val()+
+              "&date=" +
+              checkIfisEmptyVal(date)+
+              "&time=" +
+              checkIfisEmptyVal(time)+
+              "&type=" +
+              checkIfisEmptyVal(projectType)+
+              "&description=" +
+              checkIfisEmptyVal(projectDescription),
+            success: function (data) {
+              // $("#mail-status").html(data);
+              console.log("success data= ", data);
+            },
+            error: function (x) {
+              console.log(x);
+            },
+          });
+        }
 
-            $.ajax({
-                type: 'post',
-                url: '../php-email/contact_mail.php',
-                data:'name='+$("#name").val()+'&email='+$("#email").val()+'&address='+$("#address").val()+'&phone='+$("#phone").val(),
-                success: function (data) {
-                    // $("#mail-status").html(data);
-                    console.log("success data= ", data)
-                },
-                error: function(x){
-                    console.log(x)
-                }
-              });
-        })
+        function validateContact() {
+          var valid = true;
+          if (!$("#email").val()) {
+            window.alert("email cannot be blank");
+            valid = false;
+          }
+          if (
+            !$("#email")
+              .val()
+              .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
+          ) {
+            window.alert("please enter a valid email");
+            valid = false;
+          }
+          return valid;
+        }
+      });
     }
+
+
+
 
     function e() {
         if ($("#visual-quoter-form").length > 0) {
