@@ -9,40 +9,37 @@
   </head>
   <body>
     <?php
-    echo 'php here';
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo var_dump($_REQUEST);
+   
+    if(isset($_POST['name'])&&isset($_POST['email'])&&isset($_POST['phone'])&&isset($_POST['address'])){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            echo var_dump($_REQUEST);
+            exit;
+        } else{
+            echo 'reached line';
 
+        }
+    } else {
+        echo 'php here';
     }
+
     ?>
     <form id="price-quote" action="" method="post" role="form">
         <div class="h4 form-title">Get Your Free Estimate!</div>
         <div class="form-group">
             <label for="name" class="sr-only">Full Name</label>
-            <input id="name" name="name" class="form-control" type="text" placeholder="Full Name" maxlength="50">
+            <input id="name" name="name" class="form-control" type="text" placeholder="Full Name" maxlength="50" required>
         </div>
         <div class="form-group">
             <label for="email" class="sr-only">Email Address</label>
-            <input id="email" name="email" class="form-control" type="email" placeholder="Email Address" maxlength="50">
+            <input id="email" name="email" class="form-control" type="email" placeholder="Email Address" maxlength="50" required>
         </div>
         <div class="form-group">
             <label for="phone" class="sr-only">Phone Number</label>
-            <input id="phone" name="phone" class="form-control" type="tel" placeholder="Phone Number" maxlength="14">
+            <input id="phone" name="phone" class="form-control" type="tel" placeholder="Phone Number" maxlength="14" required>
         </div>
         <div class="form-group">
             <label for="address" class="sr-only">Full Address</label>
-            <input id="address" name="address" class="form-control" type="text" placeholder="Full Address" autocomplete="none">
-            <input id="g-address1" name="address1" type="hidden" autocomplete="none" />
-            <input id="g-address2" name="address2" type="hidden" autocomplete="none" />
-            <input id="g-city" name="city" type="hidden" autocomplete="none" />
-            <input id="g-neighborhood" name="neighborhood" type="hidden" autocomplete="none" />
-            <input id="g-state" name="state" type="hidden" autocomplete="none" />
-            <input id="g-zip" name="zip" type="hidden" autocomplete="none" />
-            <input id="g-county" name="county" type="hidden" autocomplete="none" />
-            <input id="g-country" name="country" type="hidden" autocomplete="none" />
-            <input id="g-latitude" name="latitude" type="hidden" autocomplete="none" />
-            <input id="g-longitude" name="longitude" type="hidden" autocomplete="none" />
+            <input id="address" name="address" class="form-control" type="text" placeholder="Full Address" autocomplete="none" required>
         </div>
             <div class="row form-switch form-group">
                 <div class="col-xs-7 label-text">

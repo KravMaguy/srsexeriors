@@ -9727,8 +9727,22 @@ $(function () {
         console.log('f redefined')
         $("#price-quote").on("submit",function(e){
             e.preventDefault();
-
             console.log('form was submitted')
+            let data=$("#price-quote").serialize()
+            console.log('data', data)
+
+            $.ajax({
+                type: 'post',
+                url: '../php-email/request-apt.php',
+                data: data,
+                success: function (res) {
+                console.log(res)
+                  alert('form was submitted');
+                },
+                error: function(x){
+                    console.log(x)
+                }
+              });
         })
     }
 
