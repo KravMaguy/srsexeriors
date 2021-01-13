@@ -9,7 +9,7 @@
 // exit;
 
 $toEmail = "flex4lease@gmail.com";
-$content = $_POST["name"]+" "+$_POST["address"]+" "+$_POST["phone"];
+$content = $_POST["name"]." ".$_POST["address"]." ".$_POST["phone"];
 $mailHeaders = "From: " . $_POST["name"] . "<" . $_POST["email"] . ">\r\n";
 if (mail($toEmail, 'test mail', $content, $mailHeaders)) {
 // echo "<p class='success'>Contact Mail Sent.</p>";
