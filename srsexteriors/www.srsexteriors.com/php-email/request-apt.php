@@ -8,21 +8,7 @@
     <script src="../js/bundle.ui.default/unminified_js.js"></script>
   </head>
   <body>
-    <?php
-   
-    if(isset($_POST['name'])&&isset($_POST['email'])&&isset($_POST['phone'])&&isset($_POST['address'])){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo var_dump($_REQUEST);
-            exit;
-        } else{
-            echo 'reached line';
-
-        }
-    } else {
-        echo 'php here';
-    }
-
-    ?>
+  <div id="mail-status"></div>
     <form id="price-quote" action="" method="post" role="form">
         <div class="h4 form-title">Get Your Free Estimate!</div>
         <div class="form-group">

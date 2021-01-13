@@ -9728,16 +9728,14 @@ $(function () {
         $("#price-quote").on("submit",function(e){
             e.preventDefault();
             console.log('form was submitted')
-            let data=$("#price-quote").serialize()
-            console.log('data', data)
 
             $.ajax({
                 type: 'post',
-                url: '../php-email/request-apt.php',
-                data: data,
-                success: function (res) {
-                console.log(res)
-                  alert('form was submitted');
+                url: '../php-email/contact_mail.php',
+                data:'name='+$("#name").val()+'&email='+$("#email").val()+'&address='+$("#address").val()+'&phone='+$("#phone").val(),
+                success: function (data) {
+                    // $("#mail-status").html(data);
+                    console.log("success data= ", data)
                 },
                 error: function(x){
                     console.log(x)
