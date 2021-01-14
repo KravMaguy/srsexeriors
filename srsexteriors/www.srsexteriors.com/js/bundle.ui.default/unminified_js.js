@@ -9727,7 +9727,7 @@ $(function () {
 
 
     let srsExteriorslocation =
-      "http://localhost/srs/srsexteriors/www.srsexteriors.com";
+      "https://www.srsexteriors.com";
 
     function s() {
       console.log("s in the global");
