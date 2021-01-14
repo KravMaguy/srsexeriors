@@ -9723,9 +9723,93 @@ $(function () {
     //     });
     // }
 
+
+
+
+    let srsExteriorslocation =
+      "http://localhost/srs/srsexteriors/www.srsexteriors.com";
+
+    function s() {
+      console.log("s in the global");
+      $("#contact-form").on("submit", function (e) {
+        e.preventDefault();
+        console.log("he tried to submit the contact form");
+        let button = $("#button-submit-form");
+        button.prop("disabled", true);
+        button.html("Submitting contact form please wait...");
+        let valid;
+        valid = validateContact();
+        if (valid) {
+          $.ajax({
+            type: "post",
+            url: srsExteriorslocation + "/php-email/contact-form-handler.php",
+            data:
+              "name=" +
+              $("#name").val() +
+              "&email=" +
+              $("#email").val() +
+              "&phone=" +
+              $("#phone").val() +
+              "&details=" +
+              $("#details").val(),
+
+            success: function (data) {
+              window.alert(
+                "thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443"
+              );
+              console.log(data);
+              window.location = srsExteriorslocation;
+            },
+            error: function (x) {
+              console.log(x);
+              window.alert(
+                "error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443"
+              );
+            },
+          });
+        } else {
+          button.html("GET FREE ESTIMATE");
+          button.prop("disabled", false);
+        }
+      });
+
+      function validateContact() {
+        var valid = true;
+        let validStr = "";
+        if (!$("#name").val()) {
+          validStr += "name cannot be blank\n";
+          valid = false;
+        }
+        if (!$("#email").val()) {
+          validStr += "email can not be blank\n";
+          valid = false;
+        }
+        if (
+          !$("#email")
+            .val()
+            .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
+        ) {
+          validStr += "please enter a valid email\n";
+          valid = false;
+        }
+        if (!$("#phone").val()) {
+          validStr += "phone number can not be blank\n";
+          valid = false;
+        }
+        if (!$("#details").val()) {
+          validStr += "details can not be blank\n";
+          valid = false;
+        }
+
+        if (validStr.length > 0) {
+          alert(validStr);
+        }
+        return valid;
+      }
+    }
+
     function f() {
-      let location = "http://localhost/srs/srsexteriors/www.srsexteriors.com"; //change when moving to live server:
-      console.log("f redefined");
+      console.log("f in the global");
       $("#price-quote").on("submit", function (e) {
         e.preventDefault();
         let button = $("#price-quote-submit");
@@ -9744,12 +9828,9 @@ $(function () {
           return val;
         }
         if (valid) {
-          // let getUrl = window.location;
-          // let baseUrl = getUrl .protocol + "//" + getUrl.host
-          // console.log(baseUrl, "baseUrl")
           $.ajax({
             type: "post",
-            url: location + "/php-email/contact_mail.php",
+            url: srsExteriorslocation + "/php-email/price-quote-handler.php",
             data:
               "name=" +
               $("#name").val() +
@@ -9793,11 +9874,11 @@ $(function () {
           var valid = true;
           let validStr = "";
           if (!$("#name").val()) {
-            validStr+="name cannot be blank\n"
+            validStr += "name cannot be blank\n";
             valid = false;
           }
           if (!$("#email").val()) {
-            validStr+="email can not be blank\n"
+            validStr += "email can not be blank\n";
             valid = false;
           }
           if (
@@ -9805,20 +9886,20 @@ $(function () {
               .val()
               .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
           ) {
-            validStr+="please enter a valid email\n"
+            validStr += "please enter a valid email\n";
             valid = false;
           }
           if (!$("#phone").val()) {
-            validStr+="phone number can not be blank\n"
+            validStr += "phone number can not be blank\n";
             valid = false;
           }
           if (!$("#address").val()) {
-            validStr+="address can not be blank\n"
+            validStr += "address can not be blank\n";
             valid = false;
           }
 
           if (validStr.length > 0) {
-              alert(validStr)
+            alert(validStr);
           }
           return valid;
         }
@@ -10124,64 +10205,64 @@ $(function () {
             });
         }
     }
-    function s() {
-        var n = $("#contact-form");
-        if (n.length > 0) {
-            n.find("#button-submit-form").click(function (t) {
-                var i, r, u;
-                t.preventDefault();
-                $(".error").removeClass("error");
-                button = $(this);
-                button.html("Submitting...");
-                button.attr("disabled", "disabled");
-                i = new FormData(n[0]);
-                i.append("contact", "1");
-                i.append("convertedpage", document.location.href);
-                i.append("__RequestVerificationToken", getSecToken());
-                n.find("input[type='file']").length &&
-                    ((r = n.find("input[type='file']")),
-                    $.each($(r)[0].files, function (n, t) {
-                        i.append($(r)[0].name, t);
-                    }),
-                    (u = $.map($(r)[0].files, function (n) {
-                        return n.name;
-                    }).join(",")),
-                    i.append("filename", u));
-                $.ajax({
-                    type: "POST",
-                    cache: !1,
-                    dataType: "json",
-                    url: "/ws/contact/",
-                    data: i,
-                    processData: !1,
-                    contentType: !1,
-                    success: function (t) {
-                        var i, r;
-                        if ((removeFeedback(), t.IsValid)) n.submit();
-                        else {
-                            button.removeAttr("disabled");
-                            button.html("Send Your Message");
-                            $.each(t.ErrFields, function (n, t) {
-                                showValidationError(n, t, "contact-form");
-                            });
-                            i = "";
-                            for (r in t.ErrFields) i += (i == "" ? "" : "\n") + t.ErrFields[r];
-                            alert(i);
-                        }
-                    },
-                });
-            });
-            $(".modal-send-message").on("show.bs.modal", function (n) {
-                var t = $(n.relatedTarget),
-                    i = t.data("location"),
-                    r = t.data("locationid"),
-                    u = $(this);
-                u.find(".modal-title").text("Send a Message to " + i);
-                $("#input-location").val(i);
-                $("#input-locationId").val(r);
-            });
-        }
-    }
+    // function s() {
+    //     var n = $("#contact-form");
+    //     if (n.length > 0) {
+    //         n.find("#button-submit-form").click(function (t) {
+    //             var i, r, u;
+    //             t.preventDefault();
+    //             $(".error").removeClass("error");
+    //             button = $(this);
+    //             button.html("Submitting...");
+    //             button.attr("disabled", "disabled");
+    //             i = new FormData(n[0]);
+    //             i.append("contact", "1");
+    //             i.append("convertedpage", document.location.href);
+    //             i.append("__RequestVerificationToken", getSecToken());
+    //             n.find("input[type='file']").length &&
+    //                 ((r = n.find("input[type='file']")),
+    //                 $.each($(r)[0].files, function (n, t) {
+    //                     i.append($(r)[0].name, t);
+    //                 }),
+    //                 (u = $.map($(r)[0].files, function (n) {
+    //                     return n.name;
+    //                 }).join(",")),
+    //                 i.append("filename", u));
+    //             $.ajax({
+    //                 type: "POST",
+    //                 cache: !1,
+    //                 dataType: "json",
+    //                 url: "/ws/contact/",
+    //                 data: i,
+    //                 processData: !1,
+    //                 contentType: !1,
+    //                 success: function (t) {
+    //                     var i, r;
+    //                     if ((removeFeedback(), t.IsValid)) n.submit();
+    //                     else {
+    //                         button.removeAttr("disabled");
+    //                         button.html("Send Your Message");
+    //                         $.each(t.ErrFields, function (n, t) {
+    //                             showValidationError(n, t, "contact-form");
+    //                         });
+    //                         i = "";
+    //                         for (r in t.ErrFields) i += (i == "" ? "" : "\n") + t.ErrFields[r];
+    //                         alert(i);
+    //                     }
+    //                 },
+    //             });
+    //         });
+    //         $(".modal-send-message").on("show.bs.modal", function (n) {
+    //             var t = $(n.relatedTarget),
+    //                 i = t.data("location"),
+    //                 r = t.data("locationid"),
+    //                 u = $(this);
+    //             u.find(".modal-title").text("Send a Message to " + i);
+    //             $("#input-location").val(i);
+    //             $("#input-locationId").val(r);
+    //         });
+    //     }
+    // }
     function h() {
         var n = trim(window.location.pathname, "/"),
             t = n.split("/");
