@@ -9725,21 +9725,77 @@ $(function () {
 
 
 
-
+ 
     let srsExteriorslocation =
-      "https://www.srsexteriors.com";
+      "http://localhost/srs/srsexteriors/www.srsexteriors.com/";
+
+    const validateContact = (formtype) => {
+      var valid = true;
+      let validStr = "";
+      if (!$("#name").val()) {
+        validStr += "name cannot be blank\n";
+        valid = false;
+      }
+      if (!$("#email").val()) {
+        validStr += "email can not be blank\n";
+        valid = false;
+      }
+      if (
+        !$("#email")
+          .val()
+          .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
+      ) {
+        validStr += "please enter a valid email\n";
+        valid = false;
+      }
+      if (!$("#phone").val()) {
+        validStr += "phone number can not be blank\n";
+        valid = false;
+      }
+      switch (formtype) {
+        case "price-quote":
+          if (!$("#address").val()) {
+            validStr += "address can not be blank\n";
+            valid = false;
+          }
+          break;
+        case "contact-form":
+          if (!$("#details").val()) {
+            validStr += "comments can not be blank\n";
+            valid = false;
+          }
+          break;
+        default:
+          return console.log("default");
+      }
+      if (validStr.length > 0) {
+        alert(validStr);
+      }
+      return valid;
+    };
+
+    const successAlert=()=>{
+        return window.alert(
+            "thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443"
+          );
+    }
+
+    const errorAlert=()=>{
+        return window.alert(
+            "error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443"
+          );
+    }
 
     function s() {
       console.log("s in the global");
       $("#contact-form").on("submit", function (e) {
         e.preventDefault();
-        console.log("he tried to submit the contact form");
         let button = $("#button-submit-form");
-        button.prop("disabled", true);
-        button.html("Submitting contact form please wait...");
         let valid;
-        valid = validateContact();
+        valid = validateContact("contact-form");
         if (valid) {
+            button.prop("disabled", true);
+            button.html("Submitting contact form please wait...");
           $.ajax({
             type: "post",
             url: srsExteriorslocation + "/php-email/contact-form-handler.php",
@@ -9752,82 +9808,43 @@ $(function () {
               $("#phone").val() +
               "&details=" +
               $("#details").val(),
-
             success: function (data) {
-              window.alert(
-                "thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443"
-              );
-              console.log(data);
+              successAlert()
               window.location = srsExteriorslocation;
             },
             error: function (x) {
-              console.log(x);
-              window.alert(
-                "error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443"
-              );
+              errorAlert()
             },
           });
-        } else {
-          button.html("GET FREE ESTIMATE");
-          button.prop("disabled", false);
-        }
+        } 
       });
-
-      function validateContact() {
-        var valid = true;
-        let validStr = "";
-        if (!$("#name").val()) {
-          validStr += "name cannot be blank\n";
-          valid = false;
-        }
-        if (!$("#email").val()) {
-          validStr += "email can not be blank\n";
-          valid = false;
-        }
-        if (
-          !$("#email")
-            .val()
-            .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
-        ) {
-          validStr += "please enter a valid email\n";
-          valid = false;
-        }
-        if (!$("#phone").val()) {
-          validStr += "phone number can not be blank\n";
-          valid = false;
-        }
-        if (!$("#details").val()) {
-          validStr += "details can not be blank\n";
-          valid = false;
-        }
-
-        if (validStr.length > 0) {
-          alert(validStr);
-        }
-        return valid;
-      }
     }
 
+
     function f() {
-      console.log("f in the global");
+      console.log("global f");
       $("#price-quote").on("submit", function (e) {
         e.preventDefault();
-        let button = $("#price-quote-submit");
-        button.prop("disabled", true);
-        button.html("Submitting details please wait...");
-        let valid;
-        valid = validateContact();
         let date = $("#apptdateraw").val();
         let time = $("#appttime").val();
         let projectType = $("#service").val();
         let projectDescription = $("#details").val();
-        function checkIfisEmptyVal(val) {
+        let valid;
+        valid = validateContact("price-quote");
+        const checkIfisEmptyVal=(val)=>{
           if (val === "" || !val) {
             return (val = "user did not enter a value");
           }
           return val;
         }
         if (valid) {
+            let button = $("#price-quote-submit");
+            const finishSubmission=()=>{
+                button.html("GET FREE ESTIMATE");
+                return button.prop("disabled", false);
+            }
+            button.prop("disabled", true);
+            button.html("Submitting details please wait...");
           $.ajax({
             type: "post",
             url: srsExteriorslocation + "/php-email/price-quote-handler.php",
@@ -9849,66 +9866,24 @@ $(function () {
               "&description=" +
               checkIfisEmptyVal(projectDescription),
             success: function (data) {
-              // $("#mail-status").html(data);
-              window.alert(
-                "thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443"
-              );
-              console.log("success data= ", data);
+              successAlert()
+              console.log('price success')
               $("#price-quote").trigger("reset");
-              button.html("GET FREE ESTIMATE");
-              button.prop("disabled", false);
+                finishSubmission()
             },
             error: function (x) {
-              console.log(x);
-              window.alert(
-                "error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443"
-              );
+                errorAlert()
             },
           });
-        } else {
-          button.html("GET FREE ESTIMATE");
-          button.prop("disabled", false);
-        }
-
-        function validateContact() {
-          var valid = true;
-          let validStr = "";
-          if (!$("#name").val()) {
-            validStr += "name cannot be blank\n";
-            valid = false;
-          }
-          if (!$("#email").val()) {
-            validStr += "email can not be blank\n";
-            valid = false;
-          }
-          if (
-            !$("#email")
-              .val()
-              .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
-          ) {
-            validStr += "please enter a valid email\n";
-            valid = false;
-          }
-          if (!$("#phone").val()) {
-            validStr += "phone number can not be blank\n";
-            valid = false;
-          }
-          if (!$("#address").val()) {
-            validStr += "address can not be blank\n";
-            valid = false;
-          }
-
-          if (validStr.length > 0) {
-            alert(validStr);
-          }
-          return valid;
-        }
+        } 
       });
     }
 
 
 
 
+
+    
     function e() {
         if ($("#visual-quoter-form").length > 0) {
             var n = $("#visual-quoter-form"),
