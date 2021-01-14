@@ -9724,12 +9724,12 @@ $(function () {
     // }
 
     function f() {
-        let location="http://localhost/srs/srsexteriors/www.srsexteriors.com" //change when moving to live server:
+      let location = "http://localhost/srs/srsexteriors/www.srsexteriors.com"; //change when moving to live server:
       console.log("f redefined");
       $("#price-quote").on("submit", function (e) {
         e.preventDefault();
-        let button=$("#price-quote-submit");
-        button.prop('disabled', true);
+        let button = $("#price-quote-submit");
+        button.prop("disabled", true);
         button.html("Submitting details please wait...");
         let valid;
         valid = validateContact();
@@ -9744,12 +9744,12 @@ $(function () {
           return val;
         }
         if (valid) {
-            let getUrl = window.location;
-            let baseUrl = getUrl .protocol + "//" + getUrl.host 
-            console.log(baseUrl, "baseUrl")
+          // let getUrl = window.location;
+          // let baseUrl = getUrl .protocol + "//" + getUrl.host
+          // console.log(baseUrl, "baseUrl")
           $.ajax({
             type: "post",
-            url: location +"/php-email/contact_mail.php",
+            url: location + "/php-email/contact_mail.php",
             data:
               "name=" +
               $("#name").val() +
@@ -9758,50 +9758,46 @@ $(function () {
               "&address=" +
               $("#address").val() +
               "&phone=" +
-              $("#phone").val()+
+              $("#phone").val() +
               "&date=" +
-              checkIfisEmptyVal(date)+
+              checkIfisEmptyVal(date) +
               "&time=" +
-              checkIfisEmptyVal(time)+
+              checkIfisEmptyVal(time) +
               "&type=" +
-              checkIfisEmptyVal(projectType)+
+              checkIfisEmptyVal(projectType) +
               "&description=" +
               checkIfisEmptyVal(projectDescription),
             success: function (data) {
               // $("#mail-status").html(data);
-              window.alert("thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443")
+              window.alert(
+                "thank you for submitting your details. You may reach out to us if you have any questions at (630) 345-4443"
+              );
               console.log("success data= ", data);
-              $('#price-quote').trigger("reset");
+              $("#price-quote").trigger("reset");
               button.html("GET FREE ESTIMATE");
-              button.prop('disabled', false);
-              
+              button.prop("disabled", false);
             },
             error: function (x) {
               console.log(x);
-              window.alert('error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443')
+              window.alert(
+                "error submitting your info, please check your internet connection and try again, you can also reach us at (630) 345-4443"
+              );
             },
           });
         } else {
-            button.html("GET FREE ESTIMATE");
-            button.prop('disabled', false);
+          button.html("GET FREE ESTIMATE");
+          button.prop("disabled", false);
         }
 
         function validateContact() {
           var valid = true;
-          if(!$("#name").val()){
-              window.alert("name can not be blank")
-              valid=false;
+          let validStr = "";
+          if (!$("#name").val()) {
+            validStr+="name cannot be blank\n"
+            valid = false;
           }
-          if(!$("#phone").val()){
-              window.alert("phone number can not be blank")
-              valid=false;
-          }
-          if(!$("#address").val()){
-            window.alert("address can not be blank")
-            valid=false;
-        }
           if (!$("#email").val()) {
-            window.alert("email can not be blank");
+            validStr+="email can not be blank\n"
             valid = false;
           }
           if (
@@ -9809,8 +9805,20 @@ $(function () {
               .val()
               .match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)
           ) {
-            window.alert("please enter a valid email");
+            validStr+="please enter a valid email\n"
             valid = false;
+          }
+          if (!$("#phone").val()) {
+            validStr+="phone number can not be blank\n"
+            valid = false;
+          }
+          if (!$("#address").val()) {
+            validStr+="address can not be blank\n"
+            valid = false;
+          }
+
+          if (validStr.length > 0) {
+              alert(validStr)
           }
           return valid;
         }
